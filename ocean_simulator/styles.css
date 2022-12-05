@@ -1,0 +1,17 @@
+body {
+    background-color: black;
+    margin: 50px;
+}
+#myCanvas {
+    border: 2px solid white;
+    background-color: navy;
+}
+.slider_text {
+    color: white;
+}
+.slide_box {
+    max-width: 20%;
+    display: grid;
+    border: 1px solid #2d2d2d;
+    grid-auto-columns: minmax(10px, auto);
+}
