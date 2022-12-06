@@ -8,8 +8,8 @@ class System {
         this.height = height
 
         // create starting organisms
-        this.desiredPrey = 100
-        this.desiredPredators = 1
+        this.desiredPrey = 200
+        this.desiredPredators = 5
         for (let i = 0; i < this.desiredPredators; i++) {
             this.organisms.push(this.createPredator())
         }
@@ -19,10 +19,6 @@ class System {
         this.num_predators = 0
         this.num_prey = 0
 
-    }
-
-    getElements() {
-        return this.organisms
     }
 
     update() {
@@ -38,7 +34,7 @@ class System {
                     if (prey.isPrey) {
                         if (predator.distanceTo(prey.x, prey.y) < predator.size) {
                             prey.flagForRemoval = true
-                            if (Math.random() < 0.33) {
+                            if (Math.random() < 0) {
                                 this.organisms.push(this.createOffspring(predator, null))
                             }
                         }
@@ -50,7 +46,7 @@ class System {
         //Check for prey asexual reproduction
         this.organisms.forEach(prey => {
             if (prey.isPrey) {
-                if (Math.random() < 0.01 && this.num_prey < this.desiredPrey) {
+                if (Math.random() < 0.001 && this.num_prey < this.desiredPrey) {
                     this.organisms.push(this.createOffspring(prey, prey.angle))
                 }
             }
@@ -59,7 +55,7 @@ class System {
         //Check for predator death
         this.organisms.forEach(predator => {
             if (!predator.isPrey) {
-                if (Math.random() < 0.002) {
+                if (Math.random() < 0.0) {
                     predator.flagForRemoval = true
                 }
             }
@@ -77,6 +73,12 @@ class System {
         this.checkBoundaries()
     }
 
+    //Returns all organisms in game
+    getElements() {
+        return this.organisms
+    }
+
+    //Game functions
     checkBoundaries() {
         this.organisms.forEach(organism => {
             if (organism.x < 0) {
@@ -96,8 +98,8 @@ class System {
 
     createPredator() {
         let predator = new Organism(Math.random() * this.width, Math.random() * this.height, "red", 5, this.width, this.height)
-        predator.max_speed = 1.3
-        predator.size = predator.size * 12
+        predator.max_speed = 1.0
+        predator.size = predator.size * 1.2
         predator.turn_speed = 0.025
         predator.line_length = 200
         predator.isPrey = false
@@ -106,7 +108,7 @@ class System {
 
     createPrey() {
         let prey = new Organism(Math.random() * this.width, Math.random() * this.height, "lime", 5, this.width, this.height)
-        prey.max_speed = 0.9
+        prey.max_speed = 1.1
         prey.turn_speed = 0.03
         prey.line_length = 100
         prey.isPrey = true

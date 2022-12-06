@@ -3,11 +3,9 @@ import {Game} from "./game.js";
 //Load a new game
 let maxWidth = document.getElementById("myCanvas").offsetWidth - 5
 let maxHeight = document.getElementById("myCanvas").offsetHeight - 5
-
 let game = new Game(maxWidth, maxHeight);
 
 //Load charts
-
 let preyChart = new Chart("preyChart", {
     type: "scatter",
     data: {
@@ -82,7 +80,6 @@ let predChart = new Chart("predatorChart", {
 })
 
 //Add controller
-
 document.addEventListener('keydown', function(event){
     console.log(event.key + " was pressed.")
     switch (event.key) {
@@ -121,9 +118,9 @@ document.addEventListener('keyup', function(event){
 } );
 
 //Begin
-
 window.requestAnimationFrame(step)
 
+//Game tick
 function step(timestamp) {
     game.update()
 
@@ -152,6 +149,7 @@ function step(timestamp) {
     }
 }
 
+//Chart Functions
 function addData(chart, data) {
     chart.data.datasets.forEach((dataset) => {
         dataset.data.unshift(data);

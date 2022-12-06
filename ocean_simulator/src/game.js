@@ -20,6 +20,7 @@ class Game {
 
     }
 
+    //Run simulation
     update() {
         this.count++
 
@@ -56,6 +57,7 @@ class Game {
         return this.system
     }
 
+    //Manager HTML Slider elements, gets values and sets game variables
     handleSliders() {
         let preyFOV = document.getElementById("preyFOV").value
         let preyDepth = document.getElementById("preyRange").value
