@@ -22,9 +22,8 @@ class Game {
 
     //Run simulation
     update() {
-        this.count++
-
         //Update Simulation
+        this.count++
         this.getSystem().update()
 
         //Animate
@@ -49,14 +48,6 @@ class Game {
         })
     }
 
-    getDisplay() {
-        return this.display
-    }
-
-    getSystem() {
-        return this.system
-    }
-
     //Manager HTML Slider elements, gets values and sets game variables
     handleSliders() {
         let preyFOV = document.getElementById("preyFOV").value
@@ -72,6 +63,14 @@ class Game {
                 organism.line_length = predatorDepth
             }
         })
+    }
+
+    getDisplay() {
+        return this.display
+    }
+
+    getSystem() {
+        return this.system
     }
 }
 

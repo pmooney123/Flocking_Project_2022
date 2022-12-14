@@ -20,8 +20,11 @@ class Organism {
         this.turn_speed = 0.10
         this.max_speed = 1
 
+        this.full = 0
+        this.hungerCD = 64
+
         this.prey_cohesion = 1
-        this.prey_fright = 25
+        this.prey_fright = 250
 
         this.boundary_force = 10
         this.collision_fright = 50
@@ -43,19 +46,32 @@ class Organism {
     }
 
     update(elements) {
-        this.cleanAngle()
-        this.resetForceVectors()
-        this.sumForceVectors(elements)
-    }
-
-    sumForceVectors(elements) {
         this.nearby = []
         this.seen = []
         this.force_vectors = []
 
+        this.cleanAngle()
+        this.resetForceVectors()
+
+        if (this.full > 0 ){
+            this.full--
+        }
+        if (this.isHungry) {
+            this.sumForceVectors(elements)
+        }
+    }
+    isHungry() {
+        if (this.full <= 0) {
+            return true
+        }
+    }
+
+    sumForceVectors(elements) {
+
         this.seeNearby(elements)
         this.moveAwayNearby(elements)
         this.seeOrganisms(elements)
+        this.coherence()
         if (this.isPrey) {
 
             this.moveTowardsAllies()
@@ -89,7 +105,6 @@ class Organism {
 
     turn(value) {
         this.angle += value * this.turn_speed
-
         this.cleanAngle()
     }
     move(value) {
@@ -178,6 +193,17 @@ class Organism {
         }
     }
 
+    coherence() {
+        if (this.seen.length > 0) {
+
+            this.seen.forEach(ally => {
+                if (ally.isPrey === this.isPrey) {
+                    this.force_vectors.push(new Vector(ally.angle, 0.1))
+                }
+            })
+        }
+
+    }
     moveTowardsAllies() {
         if (this.seen.length > 0) {
             let tx = 0, ty = 0

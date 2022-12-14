@@ -8,16 +8,17 @@ class System {
         this.height = height
 
         // create starting organisms
-        this.desiredPrey = 200
-        this.desiredPredators = 5
-        for (let i = 0; i < this.desiredPredators; i++) {
+        this.onLoad()
+    }
+
+    onLoad() {
+        for (let i = 0; i < 10; i++) {
+            console.log('here')
             this.organisms.push(this.createPredator())
         }
-        for (let i = 0; i < this.desiredPrey; i++) {
+        for (let i = 0; i < 300; i++) {
             this.organisms.push(this.createPrey())
         }
-        this.num_predators = 0
-        this.num_prey = 0
 
     }
 
@@ -29,11 +30,12 @@ class System {
 
         //Check for predator kills
         this.organisms.forEach(predator => {
-            if (!predator.isPrey) {
+            if (!predator.isPrey && predator.isHungry()) {
                 predator.nearby.forEach(prey => {
-                    if (prey.isPrey) {
+                    if (prey.isPrey && !prey.flagForRemoval) {
                         if (predator.distanceTo(prey.x, prey.y) < predator.size) {
                             prey.flagForRemoval = true
+                            predator.hunger = predator.hungerCD
                             if (Math.random() < 0) {
                                 this.organisms.push(this.createOffspring(predator, null))
                             }
@@ -98,7 +100,7 @@ class System {
 
     createPredator() {
         let predator = new Organism(Math.random() * this.width, Math.random() * this.height, "red", 5, this.width, this.height)
-        predator.max_speed = 1.0
+        predator.max_speed = 1.3
         predator.size = predator.size * 1.2
         predator.turn_speed = 0.025
         predator.line_length = 200
@@ -108,7 +110,7 @@ class System {
 
     createPrey() {
         let prey = new Organism(Math.random() * this.width, Math.random() * this.height, "lime", 5, this.width, this.height)
-        prey.max_speed = 1.1
+        prey.max_speed = 1.5
         prey.turn_speed = 0.03
         prey.line_length = 100
         prey.isPrey = true
